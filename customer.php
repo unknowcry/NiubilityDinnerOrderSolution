@@ -1,4 +1,0 @@
-<?php
-$orderStatue=null;
-?>
-

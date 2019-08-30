@@ -1,15 +1,16 @@
 <html>
     <head></head>
     <body>
-        <form action="./login.php" medthod="post">
+        <form action="./postHolder.php" method="post">
+            <input type="hidden" name="option" value="login">
             <table>
                 <tr>
                     <td>account type:</td>
                     <td>
                         <select name="type">
-                            <option value="restaurant">restaurant</option>
-                            <option value="cus">cus</option>
-                            <option value="background">background</option>
+                            <option value="0">background</option>
+                            <option value="1" selected="selected">customer</option>
+                            <option value="2">restaurant</option>
                         </select>
                     </td>
                 </tr>

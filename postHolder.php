@@ -1,4 +1,6 @@
 <?php
+print("post:");
+print_r($_POST);
 
 if(isset($_POST["option"])){
     switch($_POST["option"]){
