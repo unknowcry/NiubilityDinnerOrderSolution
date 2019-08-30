@@ -10,6 +10,16 @@ if(isset($_POST["option"])){
                 case "0":{
                     $username="admin";
                     $password="admin";
+                    if($_POST["username"]==$username){
+                        if($_POST["passwd"]==$password){
+                            print("loged in!!!");
+                        }
+                        else{
+                            print("wrong password!!!");
+                        }
+                    }else{
+                        print("wrong username!!!");
+                    }
                     break;
                 }
                 case "1":{
