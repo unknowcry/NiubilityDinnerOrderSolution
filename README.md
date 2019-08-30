@@ -3,7 +3,9 @@
 
 尽可能将php和html分开写
 
-页面框架由html构建，内容用js填充，数据从php的json发送（这种方法不知道能不能完全不用在html里面嵌入）
+页面框架由html构建，内容用js填充，数据通过php中方法echo的json数据获取（这种方法不知道能不能完全不用在html里面嵌入php）
+
+所有上传的数据都直接通过表单发送给postHoder.php 通过加入的option字段判断程序走向
 
 ### todo
 
