@@ -36,7 +36,7 @@ CREATE TABLE `customer`  (
 DROP TABLE IF EXISTS `dish`;
 CREATE TABLE `dish`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sh_id` int(11) NOT NULL,
+  `restaurant_id` int(11) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `number` int(11) NULL DEFAULT 0,
   `price` double NOT NULL,
@@ -71,6 +71,7 @@ CREATE TABLE `restaurant`  (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `introduce` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `pwd` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  //TODO 添加地址
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
