@@ -1,6 +1,11 @@
 # NiubilityDinnerOrderSolution
 ### 所有的数据上传都使用post 在其中加入一项option判断不同操作
 
+建议debug环境git/github+vscode+wsl(windows子系统，推荐ubuntu18.04)安装php7.2+mysql
+
+我们使用的库medoo可以无视mssql和mysql的区别 只需要多安装一个库
+
+
 尽可能将php和html分开写
 
 页面框架由html构建，内容用js填充，数据通过php中方法echo的json数据获取（这种方法不知道能不能完全不用在html里面嵌入php）
