@@ -1,0 +1,41 @@
+CREATE TABLE `customer` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `userName` varchar(255) NOT NULL,
+  `passwd` varchar(255) NOT NULL,
+  `phoneNumber` varchar(11) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `indent` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `time` datetime NOT NULL,
+  `customerID` int(10) NOT NULL,
+  `content` varchar(1024) NOT NULL,
+  `price` double(6,3) NOT NULL,
+  `status` int(3) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `customer` (`customerID`),
+  CONSTRAINT `customer` FOREIGN KEY (`customerID`) REFERENCES `customer` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `dish` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `restaurantID` int(10) NOT NULL,
+  `dishTitle` varchar(255) NOT NULL,
+  `dishAmount` int(3) NOT NULL,
+  `price` double(6,3) NOT NULL,
+  `showPictureFileName` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `restaurant` (`restaurantID`),
+  CONSTRAINT `restaurant` FOREIGN KEY (`restaurantID`) REFERENCES `restaurant` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `customer` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `userName` varchar(255) NOT NULL,
+  `passwd` varchar(255) NOT NULL,
+  `phoneNumber` varchar(11) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
