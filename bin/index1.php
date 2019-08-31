@@ -1,3 +1,11 @@
+<?php
+if(isset($_COOKIE["islogedin"])){
+    if($_COOKIE["islogedin"]==1){
+        header("./personal.php");
+        exit();
+    }
+}
+?>
 <html>
     <head></head>
     <body>

@@ -5,14 +5,30 @@ require_once"./libs/Medoo.php";
 use Medoo\Medoo;
 
 class sqlinit{
+    private $database_type='mysql';
+    private $database_name='order';
+    private $server='127.0.0.1';
+    private $username='root';
+    private $passwd='wolf';
+    private $charset='utf8';
+    private $tablelist=array();
+    protected function setTableList(){
+        $this->tablelist["dish"]="dish";
+        $this->tablelist["customer"]="customer";
+        $this->tablelist["restaurant"]="restaurant";
+        $this->tablelist["indent"]="indent";
+    }
+    public function getDatabase(){
+        return $this->__construct();
+    }
     public function __construct(){
         return new Medoo([
-            'database_type' => 'mysql',
-	        'database_name' => 'order',
-	        'server' => '127.0.0.1',
-	        'username' => 'root',
-            'password' => 'wolf',
-            'charset' => 'utf8'
+            'database_type' => $this->database_type,
+	        'database_name' => $this->database_name,
+	        'server' => $this->server,
+	        'username' => $this->username,
+            'password' => $this->passwd,
+            'charset' => $this->charset
         ]);
     }
 }
@@ -127,5 +143,9 @@ class indent_item{
 }
 
 class identFull_item extends indent_item{
-    
+}
+
+
+class sqlOperate extends sqlinit{
+
 }

@@ -34,9 +34,10 @@ class debugManager{
     }
 }
 
+/*
 $debugManager = new debugManager();
 $debugManager->debugOn();
 if($debugManager->isDebugOn()){
     print_r($_POST);
-}
+}*/
 
