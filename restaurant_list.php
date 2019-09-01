@@ -19,6 +19,7 @@ class restaurant_list{
         $this->allData=$this->db->select("restaurant","*");
         return $this->allData;
     }
+    
     function getCustomerAvailableData(){
         $this->allData=$this->db->select("restaurant","*");
         for($i=0;$i<count($this->allData);$i++){
@@ -30,7 +31,7 @@ class restaurant_list{
         return $this->customerAvailableData;
     }
 
-    function selectById( $id ){
+    function selectByID( $id ){
         return $data=$this->db->select("restaurant","*",["id"=>$id]);
     }
 
@@ -43,20 +44,20 @@ class restaurant_list{
     }
 
     function insert($data){
-        $lastUserId=$this->db->insert("restaurant","$data");
-        return $lastUserId;
+        $lastUserID=$this->db->insert("restaurant","$data");
+        return $lastUserID;
     }
 
-    function deleteById( $id ){
-        return $this->db->delete("restaurant","*",["id"=>$id]);
+    function deleteByID( $id ){
+        return $this->db->delete("restaurant",["id"=>$id]);
     }
 
     function deleteByUserName($userName){
-        return $this->db->select("restaurant","*",["userName"=>$userName]);
+        return $this->db->delete("restaurant",["userName"=>$userName]);
     }
 
-    function deletePhoneNumber($PhoneNumber){
-        return $this->db->select("restaurant","*",["PhoneNumber"=>$PhoneNumber]);
+    function deleteByPhoneNumber($PhoneNumber){
+        return $this->db->delete("restaurant",["PhoneNumber"=>$PhoneNumber]);
     }
 
     function update($data,$where){
