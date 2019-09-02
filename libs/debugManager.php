@@ -32,12 +32,14 @@ class debugManager{
             return false;
         }
     }
+    public function debugPrintR($array){
+        print("<br>");
+        print_r($array);
+        print("<br>");
+    }
 }
 
-/*
+
 $debugManager = new debugManager();
 $debugManager->debugOn();
-if($debugManager->isDebugOn()){
-    print_r($_POST);
-}*/
 
