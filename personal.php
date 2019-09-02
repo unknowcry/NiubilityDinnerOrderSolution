@@ -22,6 +22,8 @@ switch($_COOKIE["user"]){
         break;
     }
     default:{
+        require "./libs/restaurant_list.php";
+
         break;
     }
 }

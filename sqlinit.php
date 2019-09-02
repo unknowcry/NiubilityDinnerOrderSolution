@@ -1,6 +1,7 @@
 <?php
 
 require_once"./libs/Medoo.php";
+require_once"./libs/littleTools.php";
 
 use Medoo\Medoo;
 
@@ -50,6 +51,7 @@ class userSeedClass{//cant use directly
         }
     }
 }
+
 
 class dish_item{//same as the table
     private $id;
@@ -145,7 +147,56 @@ class indent_item{
 class identFull_item extends indent_item{
 }
 
+//实例化一个对象，参数为表名，所有列的名字，低权限账户无法看到的数据列名
+//构建对象过程中只是存入了一些参数，数据并没有从数据库中提取
+//如果需要数据，getdata的函数返回值都是包含数据的数组。
+class operateDataOnTableFromDatabase extends sqlinit{
+    private $database;
+    private $tableName;
+    private $seriesOnTable=array();//表格列名
+    private $notAccessibleSeries=array();//用于剔除低权限不可访问的数据
+    private $lowRightSeries=array();//保存低权限可访问列名
+    private $allData;
+    private $lowRightAccessibleData;
 
-class sqlOperate extends sqlinit{
+    public function __construct($tableName,$seriesOnTable,$notAccessibleSeries){
+        $this->tableName=$tableName;
+        $this->seriesOnTable=$seriesOnTable;
+        $this->notAccessibleSeries=$notAccessibleSeries;
+        $database = new sqlinit();
+        $this->database=$database->getDatabase();
+        $littleTools=new littleTools();
+        $this->lowRightSeries=$littleTools->delItemsFromArrayWithoutKey($this->seriesOnTable,$this->notAccessibleSeries);
+    }
+    public function getAllData(){
+        $this->allData=$this->database->select($this->tableName,"*");
+        return $this->allData;
+    }
+    public function getLowRightAccessibleData(){
+        $littleTools=new littleTools();
+        $this->lowRightAccessibleData=$littleTools->delItemsFromArray($this->allData,$this->notAccessibleSeries);
+        return $this->lowRightAccessibleData;
+    }
+}
 
+class seriesOnTable{
+    private $restaurant;
+    private $restaurantSeries;
+    private $restaurantLowRightS;
+    private $notAccessibleRestaurant;
+    private $indent;
+    private $indentSeries;
+    private $indentLowRightS;
+    private $notAccessibleIndent;
+    private $customer;
+    private $customerSeries;
+    private $customerLowRightS;
+    private $notAccessibleCustomer;
+    private $dish;
+    private $dishSeries;
+    private $dishLowRightS;
+    private $notAccessibleDish;
+    public function __construct(){
+        //TODO 填写这个列表 每个表名，每个表头，每个表低权限可达列,每个表不可达列
+    }
 }

@@ -12,6 +12,35 @@ function delOneItemFromArray($dataArray,$itemKey){
     return $newDataArray;
 }
 
+function delItemsFromArray($dataArray,$itemKeys){
+    //just for array whitch has array key
+    $newDataArray=$dataArray;
+    for($i=0;$i<count($itemKeys);$i++){
+        $newDataArray=$this->delOneItemFromArray($newDataArray,$itemKeys[$i]);
+    }
+    return $newDataArray;
+}
+
+function delOneItemFromArrayWithoutKey($dataArray,$item){
+    //judge the value of array item
+    $newDataArray=array();
+    for($i=0;$i<count($dataArray);$i++){
+        if($dataArray[$i]!==$item){
+            $newDataArray[]=$dataArray[$i];
+        }
+    }
+    return $newDataArray;
+}
+
+function delItemsFromArrayWithoutKey($dataArray,$items){
+    //$items is an array();
+    $newDataArray=$dataArray;
+    for($i=0;$i<count($items);$i++){
+        $newDataArray=$this->delOneItemFromArrayWithoutKey($newDataArray,$item[$i]);
+    }
+    return $newDataArray;
+}
+
 function getBigger($a,$b){
     return $a>$b?$a:$b;
 }
