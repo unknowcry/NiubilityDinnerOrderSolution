@@ -36,7 +36,7 @@ function delItemsFromArrayWithoutKey($dataArray,$items){
     //$items is an array();
     $newDataArray=$dataArray;
     for($i=0;$i<count($items);$i++){
-        $newDataArray=$this->delOneItemFromArrayWithoutKey($newDataArray,$item[$i]);
+        $newDataArray=$this->delOneItemFromArrayWithoutKey($newDataArray,$items[$i]);
     }
     return $newDataArray;
 }
