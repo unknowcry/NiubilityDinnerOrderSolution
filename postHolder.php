@@ -1,7 +1,7 @@
 <?php
 require"./libs/debugManager.php";
 $debugManager = new debugManager();
-$debugManager->debugOn();
+$debugManager->debugOff();
 if($debugManager->isDebugOn()){
     print("post: ");
     print_r($_POST);

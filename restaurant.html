@@ -9,7 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./share-element.html" rel="import">
+    <!--<link href="./share-element.html" rel="import">-->
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
@@ -40,12 +40,11 @@
     </div>-->
 
     <script>
-      var data=null;
-      alert(data);
         $(document).ready(function(){
-          $.post("./postHolder.php"),{operate:"getdata"},function(data,status){
-            alert(data);
-          }
+          $.post("postHolder.php", { operate: "getdata"},function(data){
+            //alert("Data Loaded: " + data);
+            console.log(data);
+            });
         });
     </script>
 
