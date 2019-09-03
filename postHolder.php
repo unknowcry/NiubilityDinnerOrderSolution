@@ -3,8 +3,11 @@ require"./libs/debugManager.php";
 $debugManager = new debugManager();
 $debugManager->debugOn();
 if($debugManager->isDebugOn()){
-    print("post:");
+    print("post: ");
     print_r($_POST);
+    print("<br>");
+    print("get: ");
+    print_r($_GET);
 }
 
 
@@ -54,12 +57,13 @@ if(isset($_POST["operate"])){
             }
             break;
         }
-        case "":{
+        case "getdata":{
+            echo(json_encode("aaaaa"));
             break;
         }
-        case "":{
+        case "deldata":{
+            //删除记录 传入表名和id
             break;
         }
     }
 }
-
