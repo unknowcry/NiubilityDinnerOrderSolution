@@ -12,13 +12,6 @@ class sqlinit{
     private $username='root';
     private $passwd='wolf';
     private $charset='utf8';
-    private $tablelist=array();
-    protected function setTableList(){
-        $this->tablelist["dish"]="dish";
-        $this->tablelist["customer"]="customer";
-        $this->tablelist["restaurant"]="restaurant";
-        $this->tablelist["indent"]="indent";
-    }
     public function getDatabase(){
         return $this->__construct();
     }
@@ -51,8 +44,6 @@ class userSeedClass{//cant use directly
         }
     }
 }
-
-
 class dish_item{//same as the table
     private $id;
     private $restaurantID;
@@ -79,7 +70,6 @@ class dish_item{//same as the table
         return $data;
     }
 }
-
 class customer_item extends userSeedClass{//same as the table
     public function __construct($data){
         $this->id = $data["id"];
@@ -98,7 +88,6 @@ class customer_item extends userSeedClass{//same as the table
         return $data;
     }
 }
-
 class restaurant_item extends userSeedClass{//same as the table
     private $restaurantName;
     private $introduction;
@@ -121,7 +110,6 @@ class restaurant_item extends userSeedClass{//same as the table
         return $data;
     }
 }
-
 class indent_item{
     private $id;
     private $time;
@@ -139,11 +127,10 @@ class indent_item{
     }
     public function getCon(){
         $data=array();
-//TODO add the lost lines
+
         return $data;
     }
 }
-
 class identFull_item extends indent_item{
 }
 
@@ -159,44 +146,48 @@ class operateDataOnTableFromDatabase extends sqlinit{
     private $allData;
     private $lowRightAccessibleData;
 
-    public function __construct($tableName,$seriesOnTable,$notAccessibleSeries){
+    public function __construct($tableName,$seriesOnTable,$notAccessibleSeries,$lowRightSeries){
         $this->tableName=$tableName;
         $this->seriesOnTable=$seriesOnTable;
         $this->notAccessibleSeries=$notAccessibleSeries;
-        $database = new sqlinit();
-        $this->database=$database->getDatabase();
-        $littleTools=new littleTools();
-        $this->lowRightSeries=$littleTools->delItemsFromArrayWithoutKey($this->seriesOnTable,$this->notAccessibleSeries);
+        $this->lowRightSeries=$lowRightSeries;
+        // $database = new sqlinit();
+        // $this->database=$database->getDatabase();
+        // $littleTools=new littleTools();
+        // $this->lowRightSeries=$littleTools->delItemsFromArrayWithoutKey($this->seriesOnTable,$this->notAccessibleSeries);
     }
     public function getAllData(){
         $this->allData=$this->database->select($this->tableName,"*");
         return $this->allData;
     }
     public function getLowRightAccessibleData(){
-        $littleTools=new littleTools();
-        $this->lowRightAccessibleData=$littleTools->delItemsFromArray($this->allData,$this->notAccessibleSeries);
+        $this->lowRightAccessibleData=$this->database->select($this->tableName,$this->lowRightSeries);
         return $this->lowRightAccessibleData;
     }
 }
 
-class seriesOnTable{
-    private $restaurant;
-    private $restaurantSeries;
-    private $restaurantLowRightS;
-    private $notAccessibleRestaurant;
-    private $indent;
-    private $indentSeries;
-    private $indentLowRightS;
-    private $notAccessibleIndent;
-    private $customer;
-    private $customerSeries;
-    private $customerLowRightS;
-    private $notAccessibleCustomer;
-    private $dish;
-    private $dishSeries;
-    private $dishLowRightS;
-    private $notAccessibleDish;
+class listOnTable{
+    public $tableName=array();
+    public $Series=array();
+    public $notAccessibleSeries=array();
+    public $lowRightSeries=array();
     public function __construct(){
         //TODO 填写这个列表 每个表名，每个表头，每个表低权限可达列,每个表不可达列
+        $this->tableName['restaurant']='restaurant';
+        $this->tableName['dish']='dish';
+        $this->tableName['customer']='customer';
+        $this->tableName['indent']='indent';
+        $this->Series['restaurant']=['id','userName','passwd','phoneNumber','address','restaurantName','introduction'];
+        $this->Series['dish']=['id','restaurantID','dishTitle','dishAmount','price','showPictureFileName'];
+        $this->Series['customer']=['id','userName','passwd','phoneNumber','address'];
+        $this->Series['indent']=['id','time','customerID','content','price','status','appraise'];
+        $this->notAccessibleSeries['restaurant']=['passwd'];
+        $this->notAccessibleSeries['dish']=null;
+        $this->notAccessibleSeries['customer']=['passwd'];
+        $this->notAccessibleSeries['indent']=null;
+        $this->lowRightSeries['restaurant']=['id','userName','phoneNumber','address','restaurantName','introduction'];
+        $this->lowRightSeries['dish']=$this->Series;
+        $this->lowRightSeries['customer']=['id','userName','phoneNumber','address'];
+        $this->lowRightSeries['indent']=$this->Series;
     }
 }
