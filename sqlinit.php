@@ -137,7 +137,7 @@ class identFull_item extends indent_item{
 //实例化一个对象，参数为表名，所有列的名字，低权限账户无法看到的数据列名
 //构建对象过程中只是存入了一些参数，数据并没有从数据库中提取
 //如果需要数据，getdata的函数返回值都是包含数据的数组。
-class operateDataOnTableFromDatabase extends sqlinit{
+class operateDataOnTableFromDatabase{
     private $database;
     private $tableName;
     private $seriesOnTable=array();//表格列名
@@ -151,10 +151,6 @@ class operateDataOnTableFromDatabase extends sqlinit{
         $this->seriesOnTable=$seriesOnTable;
         $this->notAccessibleSeries=$notAccessibleSeries;
         $this->lowRightSeries=$lowRightSeries;
-        // $database = new sqlinit();
-        // $this->database=$database->getDatabase();
-        // $littleTools=new littleTools();
-        // $this->lowRightSeries=$littleTools->delItemsFromArrayWithoutKey($this->seriesOnTable,$this->notAccessibleSeries);
     }
     public function getAllData(){
         $this->allData=$this->database->select($this->tableName,"*");
@@ -191,3 +187,4 @@ class listOnTable{
         $this->lowRightSeries['indent']=$this->Series;
     }
 }
+
