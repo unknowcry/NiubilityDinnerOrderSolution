@@ -58,11 +58,33 @@ if(isset($_POST["operate"])){
             break;
         }
         case "getdata":{
-            echo(json_encode("aaaaa"));
+            switch($_POST["type"]){
+                case "alldata":{
+                    //tablename $_POST['tablename'];
+                    break;
+                }
+                case "byid":{
+                    //tablename id
+                    break;
+                }
+                case "byotherseries":{
+                    //tablename seriesname
+                    break;
+                }
+            }
             break;
         }
         case "deldata":{
             //删除记录 传入表名和id
+            break;
+        }
+        case "modifydata":{
+            //tablename id seriesname newdata
+            break;
+        }
+        case "adddata":{
+            //tablename [array];
+            //TODO 将文件从上传的tmp目录保存到./pic
             break;
         }
     }
