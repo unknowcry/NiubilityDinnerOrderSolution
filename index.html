@@ -1,13 +1,3 @@
-<?php
-if(isset($_COOKIE["islogedin"])){
-    if($_COOKIE["islogedin"]==1){
-        //Header("HTTP/1.1 303 See Other");
-        Header("Location: ./personal.php");
-        exit();
-    }
-}
-?>
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,6 +8,12 @@ if(isset($_COOKIE["islogedin"])){
         <link href="css/login.css" rel="stylesheet" type="text/css">
         <script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <script>
+            console.log($.cookie('islogedin'));
+            if($.cookie('islogedin')==1){
+                window.location.href='./personal.php';
+            }
+        </script>
     </head>
 
     <body>
@@ -41,6 +37,7 @@ if(isset($_COOKIE["islogedin"])){
                     <span id="password_text" onclick="this.style.display='none';document.getElementById('password').style.display='block';document.getElementById('password').focus().select();">密码</span>
                     <input name="passwd" type="password" id="password" style="display:none;" onblur="if(this.value==''){document.getElementById('password_text').style.display='block';this.style.display='none'};" autocomplete="off">
                     <input value="登录" style="width:100%;" type="submit">
+                    <script></script>
                 </form>
             </div>
     </div>

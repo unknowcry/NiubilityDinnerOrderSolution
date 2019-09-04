@@ -41,16 +41,6 @@
 
     <script>
         $(document).ready(function(){
-          $.post("postHolder.php", { operate: "getdata"},function(data){
-            //alert("Data Loaded: " + data);
-            console.log(data);
-            });
-        });
-    </script>
-
-    <!--
-    <script>
-        $(document).ready(function(){
             $.post("postHolder.php",{operate:"getdata"},function(data,status){
               var i = 1;
               for(i;i<data.size();i++)
@@ -75,7 +65,6 @@
             })
         })
     </script>
-  -->
 
   </body>
 </html>

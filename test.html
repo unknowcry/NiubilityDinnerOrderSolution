@@ -8,8 +8,8 @@
     <body>
         <script>
         $(document).ready(function(){
-            $.post("postHolder.php", { operate: "getdata",type:"alldata"},function(data){
-            alert("Data Loaded: " + data);
+            $.post("postHolder.php", { operate: "deldata",type:"alldata",data:['hrll','ergg']},function(data){
+            //alert(data);
             console.log(data);
             });
         });

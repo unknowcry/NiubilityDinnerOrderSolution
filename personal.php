@@ -15,14 +15,14 @@ $debugManager=new debugManager();
 if($debugManager->isDebugOn()){
     print("background!!!<br>");
 }
+print_r($_COOKIE);
 
 switch($_COOKIE["user"]){
     case "admin":{
-        require "./bin/background.php";
+        print("<br>here is in admin case under switch");
         break;
     }
     default:{
-        require "./libs/restaurant_list.php";
 
         break;
     }

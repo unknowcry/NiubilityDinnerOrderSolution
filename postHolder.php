@@ -78,7 +78,7 @@ if(isset($_POST["operate"])){
         }
         case "deldata":{
             //删除记录 传入表名和id
-            echo("aaa");
+            print_r($_POST);
             break;
         }
         case "modifydata":{
@@ -88,6 +88,9 @@ if(isset($_POST["operate"])){
         case "adddata":{
             //tablename [array];
             //TODO 将文件从上传的tmp目录保存到./pic
+            require_once"./sqlinit.php";
+            $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($_POST['tableName']));
+            
             break;
         }
     }
