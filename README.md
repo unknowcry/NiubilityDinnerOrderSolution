@@ -23,3 +23,7 @@
 
 
 从php架构的角度来说 我们应该在postHolder中加一个设置本目录为server根目录的函数，在require过程中使用相对于server根目录的绝对路径比较方便 尤其是有文件夹参与的情况中，这个便利性尤其突出
+
+## 中枢
+所有的数据通过post发送给postHolder.php,在form中包含operate type等标记用做判断分支选择;因此postHolder.php可以看作是一个数据中枢。
+页面中枢是personal.php 是用户登录以后显示的

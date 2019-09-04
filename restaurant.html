@@ -22,7 +22,7 @@
     <![endif]-->
   </head>
   <body>
-    
+
     <ul id="top" class="nav nav-tabs">
             <li role="presentation" class="active"><a href="#">首页</a></li>
             <li role="presentation" ><a href="#">订单</a></li>
@@ -39,16 +39,6 @@
         </div>
     </div>-->
 
-    <script>
-        $(document).ready(function(){
-          $.post("postHolder.php", { operate: "getdata"},function(data){
-            //alert("Data Loaded: " + data);
-            console.log(data);
-            });
-        });
-    </script>
-
-    <!--
     <script>
         $(document).ready(function(){
             $.post("postHolder.php",{operate:"getdata"},function(data,status){
@@ -75,7 +65,6 @@
             })
         })
     </script>
-  -->
 
   </body>
 </html>
