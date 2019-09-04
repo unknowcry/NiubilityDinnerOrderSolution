@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test</title>
+        <meta charset="utf8">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>
+        $(document).ready(function(){
+            $.post("postHolder.php", { operate: "getdata",type:"alldata"},function(data){
+            alert("Data Loaded: " + data);
+            console.log(data);
+            });
+        });
+        </script>
+    </body>
+</html>

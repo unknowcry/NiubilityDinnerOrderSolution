@@ -146,11 +146,11 @@ class operateDataOnTableFromDatabase{
     private $allData;
     private $lowRightAccessibleData;
 
-    public function __construct($tableName,$seriesOnTable,$notAccessibleSeries,$lowRightSeries){
-        $this->tableName=$tableName;
-        $this->seriesOnTable=$seriesOnTable;
-        $this->notAccessibleSeries=$notAccessibleSeries;
-        $this->lowRightSeries=$lowRightSeries;
+    public function __construct($listOnTable){
+        $this->tableName=$listOnTable[0];
+        $this->seriesOnTable=$listOnTable[1];
+        $this->notAccessibleSeries=$listOnTable[2];
+        $this->lowRightSeries=$listOnTable[3];
     }
     public function getAllData(){
         $this->allData=$this->database->select($this->tableName,"*");
@@ -159,6 +159,34 @@ class operateDataOnTableFromDatabase{
     public function getLowRightAccessibleData(){
         $this->lowRightAccessibleData=$this->database->select($this->tableName,$this->lowRightSeries);
         return $this->lowRightAccessibleData;
+    }
+    function selectAllDataByID($id){
+        $data=$this->database->select("$this->tableName","*",["id"=>$id]);
+        return $data;
+    }
+    function selectLowRightAccessibleDataByID($id){
+        $data=$this->database->select($this->tableName,$this->lowRightSeries,["id"=>$id]);
+        return $data;
+    }
+    function selectAlldataByUserName($userName){
+        $data=$this->database->select($this->tableName,"*",["userName"=>$userName]);
+        return $data;
+    }
+    function selectLowRightAccessibleDataByUserName($userName){
+        $data=$this->database->select($this->tableName,$this->lowRightSeries,["userName"=>$userName]);
+        return $data;
+    }
+    function deleteByID($id){
+        return $this->database->delete($this->tableName,["id"=>$id]);
+    }
+    function insert($data){
+        return $this->database->insert($this->tableName,$data);
+    }
+    function update($data,$where){
+        return $this->database->update($this->tableName,$data,$where);
+    }
+    function updateByID($data,$id){
+        return $this->database->update($this->tableName,$data,["id"=>$id]);
     }
 }
 
@@ -186,5 +214,14 @@ class listOnTable{
         $this->lowRightSeries['customer']=['id','userName','phoneNumber','address'];
         $this->lowRightSeries['indent']=$this->Series;
     }
+    public function getListOnTable($tableName){
+        $data=array();
+        $data[]=$this->tableName[$tableName];
+        $data[]=$this->Series[$tableName];
+        $data[]=$this->notAccessibleSeries[$tableName];
+        $data[]=$this->lowRightSeries[$tableName];
+        return $data;
+    }
 }
+$listOnTable=new listOnTable();
 

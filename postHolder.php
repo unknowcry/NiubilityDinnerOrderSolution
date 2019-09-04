@@ -61,6 +61,8 @@ if(isset($_POST["operate"])){
             switch($_POST["type"]){
                 case "alldata":{
                     //tablename $_POST['tablename'];
+                    require_once"./sqlinit.php";
+                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName['']));
                     break;
                 }
                 case "byid":{
@@ -76,6 +78,7 @@ if(isset($_POST["operate"])){
         }
         case "deldata":{
             //删除记录 传入表名和id
+            echo("aaa");
             break;
         }
         case "modifydata":{
