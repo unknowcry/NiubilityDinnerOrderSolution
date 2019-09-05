@@ -171,7 +171,7 @@ class operateDataOnTableFromDatabase{
         $this->lowRightAccessibleData=$this->database->select($this->tableName,$this->lowRightSeries);
         return $this->lowRightAccessibleData;
     }
-    function selectDataByOtherSerie($series){
+    function selectDataByOtherSeries($series){
         $data=$this->database->select($this->tableName,$series);
         return $data;
     }

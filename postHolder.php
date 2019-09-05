@@ -4,11 +4,9 @@ require"./libs/debugManager.php";
 $debugManager = new debugManager();
 $debugManager->debugOn();
 if($debugManager->isDebugOn()){
-    print("post: ");
+    print("post: <br>");
     print_r($_POST);
     print("<br>");
-    //print("get: ");
-    //print_r($_GET);
 }
 
 
@@ -48,7 +46,13 @@ if(isset($_POST["operate"])){
             }
             $database=new operateDataOnTableFromDatabase($table);
             $data=$database->selectDataByOtherSeries($array);
-            //print_r($data);
+
+            if($debugManager->isDebugOn()){
+                print("data<br>");
+                print_r($data);
+            }
+
+
             $userNameexists=false;
             $isPasswdCorrect=false;
             for($i=0;$i<count($data);$i++){
@@ -60,11 +64,15 @@ if(isset($_POST["operate"])){
                         $cookie=new cookieManager('userName',$_POST['userName']);
                         $cookie=new cookieManager('id',$data[$i]['id']);
                         $cookie=new cookieManager('islogedin','1');
-                        Header("Location: ./restaurant.php");
+                        Header("Location: ./restaurant.html");
                         exit();
                         break;
                     }
                 }
+            }
+            if($debugManager->isDebugOn()){
+                print("tag<br>");
+                print_r("aa");
             }
             if(!$userNameexists){
                 //print('用户不存在，将为你创建新账户<br>');
