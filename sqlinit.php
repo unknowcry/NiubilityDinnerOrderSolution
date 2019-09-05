@@ -171,8 +171,8 @@ class operateDataOnTableFromDatabase{
         $this->lowRightAccessibleData=$this->database->select($this->tableName,$this->lowRightSeries);
         return $this->lowRightAccessibleData;
     }
-    function selectDataByIdUserNamePasswd(){
-        $data=$this->database->select("$this->database",['id','userName','passwd']);
+    function selectDataByOtherSeries($series){
+        $data=$this->database->select($this->tableName,$series);
         return $data;
     }
     function selectAllDataByID($id){

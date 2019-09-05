@@ -18,7 +18,10 @@ if(isset($_POST["operate"])){
             //TODO new 一个数据库holder
             require_once "./sqlinit.php";
             $table=null;
-            $series=['id','userName','passwd'];
+            $array=array();
+            $array[]="id";
+            $array[]="userName";
+            $array[]="passwd";
             $nextPage=null;
             switch($_POST["type"]){
                 case "0":{
@@ -44,7 +47,7 @@ if(isset($_POST["operate"])){
                 print_r($table);
             }
             $database=new operateDataOnTableFromDatabase($table);
-            $data=$database->selectDataByIdUserNamePasswd();
+            $data=$database->selectDataByOtherSeries($array);
             print_r($data);
             /*
             $userNameexists=false;
