@@ -48,8 +48,7 @@ if(isset($_POST["operate"])){
             }
             $database=new operateDataOnTableFromDatabase($table);
             $data=$database->selectDataByOtherSeries($array);
-            print_r($data);
-            /*
+            //print_r($data);
             $userNameexists=false;
             $isPasswdCorrect=false;
             for($i=0;$i<count($data);$i++){
@@ -57,11 +56,27 @@ if(isset($_POST["operate"])){
                     $userNameexists=true;
                     if($data[$i]['passwd']==$_POST['passwd']){
                         $isPasswdCorrect=true;
+                        print('用户名密码正确，正在为您重定向!<br>');
+                        $cookie=new cookieManager('userName',$_POST['userName']);
                         $cookie=new cookieManager('id',$data[$i]['id']);
+                        $cookie=new cookieManager('islogedin','1');
+                        Header("Location: ./restaurant.php");
+                        exit();
                         break;
                     }
                 }
-            }*/
+            }
+            if(!$userNameexists){
+                //print('用户不存在，将为你创建新账户<br>');
+                //$database->insert(["id"=>])
+                print('密码错误，请重新登陆<br>');
+                print('<a href="./index.html">重新登陆</a>');
+            }else{
+                if(!$isPasswdCorrect){
+                    print('密码错误，请重新登陆<br>');
+                    print('<a href="./index.html">重新登陆</a>');
+                }
+            }
                     /*
                     if(!$userNameexists){
                         print('用户名不存在，将为你创建新账户<br>');
@@ -83,35 +98,63 @@ if(isset($_POST["operate"])){
         }
         case "getdata":{
             switch($_POST["type"]){
-                case "alldata":{
+                case "alldata":{//从确定的表中获取全部列的数据
                     //tablename $_POST['tablename'];
+                    $tableName=$_POST['tableName'];
                     require_once"./sqlinit.php";
-                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName['']));
+                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+                    $data=$database->getAllData();
+                    echo(json_encode($data));
                     break;
                 }
-                case "byid":{
+                case "byid":{//从确定的表中获取某一确定的id对应的数据
                     //tablename id
+                    $tableName=$_POST['tableName'];
+                    $id=$_POST['id'];
+                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+                    $data=$database->selectAllDataByID($id);
+                    echo(json_encode($data));
                     break;
                 }
-                case "byotherseries":{
-                    //tablename seriesname
+                case "byotherserie":{//从确定的表中获取某一确定的某列值的对应数据
+                    //tablename seriesname seriesval
+                    $tableName=$_POST['tableName'];
+                    $seriesName=$_POST['seriesName'];
+                    $seriesVal=$_POST['seriesVal'];
+                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+                    $data=$database->selectDataByOtherSerie([$seriesName=>$seriesVal]);
+                    echo(json_encode($data));
+                    break;
+                }
+                case "getlowrightdata":{
+                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+                    $data=$database->getLowRightAccessibleData();
+                    echo(json_encode($data));
                     break;
                 }
             }
             break;
         }
-        case "deldata":{
+        case "deldata":{//从确定的表中删除对应id的数据
             //删除记录 传入表名和id
-            print_r($_POST);
+            $tableName=$_POST['tableName'];
+            $id=$_POST['id'];
+            $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+            $database->deleteByID($id);
+            //print_r($_POST);
             break;
         }
-        case "modifydata":{
+        case "modifydata":{//从确定的表中修改对应id的数据
             //tablename id seriesname newdata
-            $_POST['tableName'];
-
+            $tableName=$_POST['tableName'];
+            $id=$_POST['id'];
+            $seriesName=$_POST['seriesName'];
+            $seriesVal=$_POST['seriesVal'];
+            $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+            $database->updateByID([$seriesName=>$seriesVal],$id);
             break;
         }
-        case "adddata":{
+        case "adddata":{//从确定的表中添加对应的数据
             //tablename [array];
             //TODO 将文件从上传的tmp目录保存到./pic
             require_once"./sqlinit.php";
