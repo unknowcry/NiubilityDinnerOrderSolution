@@ -1,17 +1,21 @@
 <?php
-
 require_once"./libs/Medoo.php";
 require_once"./libs/littleTools.php";
-
 use Medoo\Medoo;
-
 class sqlinit{
     private $database_type='mysql';
-    private $database_name='order';
+    private $database_name='order_db';
     private $server='127.0.0.1';
     private $username='root';
-    private $passwd='wolf';
+    private $passwd='root';
     private $charset='utf8';
+    private $tablelist=array();
+    protected function setTableList(){
+        $this->tablelist["dish"]="dish";
+        $this->tablelist["customer"]="customer";
+        $this->tablelist["restaurant"]="restaurant";
+        $this->tablelist["indent"]="indent";
+    }
     public function getDatabase(){
         return $this->__construct();
     }
@@ -27,7 +31,6 @@ class sqlinit{
     }
 }
 //顾客 菜品 餐馆 订单
-
 class userSeedClass{//cant use directly
     private $id;
     private $userName;
@@ -117,6 +120,7 @@ class indent_item{
     private $content = array();
     private $price;
     private $status;
+    private $appraise;
     public function __construct($data){
         $this->id=$data["id"];
         $this->time=$data["time"];
@@ -124,16 +128,22 @@ class indent_item{
         $this->content=json_decode($data["content"]);//id&&amount
         $this->price=$data["price"];
         $this->status=$data["status"];
+        $this->appraise=$data["appraise"];
     }
     public function getCon(){
         $data=array();
-
+        $data["id"]=$this->id;
+        $data["time"]=$this->time;
+        $data["customerID"]=$this->customerID;
+        $data["content"]=$this->content;
+        $data["price"]=$this->price;
+        $data["status"]=$this->status;
+        $data["appriase"]=$this->appraise;
         return $data;
     }
 }
 class identFull_item extends indent_item{
 }
-
 //实例化一个对象，参数为表名，所有列的名字，低权限账户无法看到的数据列名
 //构建对象过程中只是存入了一些参数，数据并没有从数据库中提取
 //如果需要数据，getdata的函数返回值都是包含数据的数组。
@@ -145,12 +155,20 @@ class operateDataOnTableFromDatabase{
     private $lowRightSeries=array();//保存低权限可访问列名
     private $allData;
     private $lowRightAccessibleData;
-
     public function __construct($listOnTable){
         $this->tableName=$listOnTable[0];
         $this->seriesOnTable=$listOnTable[1];
         $this->notAccessibleSeries=$listOnTable[2];
         $this->lowRightSeries=$listOnTable[3];
+        
+        //$this->tableName=$tableName;
+        //$this->seriesOnTable=$seriesOnTable;
+        //$this->notAccessibleSeries=$notAccessibleSeries;
+        //$this->lowRightSeries=$lowRightSeries;
+        $database = new sqlinit();
+        $this->database=$database->getDatabase();
+        // $littleTools=new littleTools();
+        // $this->lowRightSeries=$littleTools->delItemsFromArrayWithoutKey($this->seriesOnTable,$this->notAccessibleSeries);
     }
     public function getAllData(){
         $this->allData=$this->database->select($this->tableName,"*");
@@ -176,6 +194,14 @@ class operateDataOnTableFromDatabase{
         $data=$this->database->select($this->tableName,$this->lowRightSeries,["userName"=>$userName]);
         return $data;
     }
+    function select_IndentByCustomerID($customerID){
+        $data=$this->database->select($this->tableName,"*",["customerID"=>$customerID]);
+        return $data;
+    }
+    function select_DishByRestaurantID($restaurantID){
+        $data=$this->database->select($this->tableName,"*",["restaurantID"=>$restaurantID]);
+        return $data;
+    }
     function deleteByID($id){
         return $this->database->delete($this->tableName,["id"=>$id]);
     }
@@ -188,8 +214,8 @@ class operateDataOnTableFromDatabase{
     function updateByID($data,$id){
         return $this->database->update($this->tableName,$data,["id"=>$id]);
     }
+    
 }
-
 class listOnTable{
     public $tableName=array();
     public $Series=array();
@@ -214,14 +240,12 @@ class listOnTable{
         $this->lowRightSeries['customer']=['id','userName','phoneNumber','address'];
         $this->lowRightSeries['indent']=$this->Series;
     }
-    public function getListOnTable($tableName){
+    function getListOnTable($tableName){
         $data=array();
         $data[]=$this->tableName[$tableName];
         $data[]=$this->Series[$tableName];
         $data[]=$this->notAccessibleSeries[$tableName];
-        $data[]=$this->lowRightSeries[$tableName];
+        $data[]=$this->lowRightSeries{$tableName};
         return $data;
     }
 }
-$listOnTable=new listOnTable();
-
