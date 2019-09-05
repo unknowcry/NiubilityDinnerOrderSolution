@@ -208,6 +208,14 @@ class operateDataOnTableFromDatabase{
     function updateByID($data,$id){
         return $this->database->update($this->tableName,$data,["id"=>$id]);
     }
+    function select_IndentByCustomerID($customerID){
+        $data=$this->database->select($this->tableName,"*",["customerID"=>$customerID]);
+        return $data;
+    }
+    function select_DishByRestaurantID($restaurantID){
+        $data=$this->database->select($this->tableName,"*",["restaurantID"=>$restaurantID]);
+        return $data;
+    }
 }
 
 class listOnTable{

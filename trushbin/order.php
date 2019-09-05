@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="myapp">
+<?php
+require_once "./libs/Medoo.php";
+use Medoo\Medoo;
+$database=new Medoo([
+    'database_type' => 'mysql',
+    'database_name' => 'order_db',
+    'server' => '127.0.0.1',
+    'username' => 'root',
+    'password' => 'wolf',
+    'charset' => 'utf8'
+]);
+$data=$database->select("dish","*");
+?>
+<html lang="en">
 <head>
-        <?php
-        require_once "./libs/Medoo.php";
-        use Medoo\Medoo;
-        $database=new Medoo([
-            'database_type' => 'mysql',
-            'database_name' => 'order_db',
-            'server' => '127.0.0.1',
-            'username' => 'root',
-            'password' => 'wolf',
-            'charset' => 'utf8'
-        ]);
-        $data=$database->select("dish","*");
-        ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -26,8 +26,7 @@
      
     <script>
         var sum_price=0;
-        var shopping_list = [];
-        var shopping_cart = [];
+        
         dish={
             key_name:'',
             key_id:'',
@@ -35,18 +34,27 @@
             key_pic:'',
             key_price:0,
             key_cur:0
-        };
-        var shopping_list=<?php echo json_encode($data);?>;
-    //     var shopping_list = [
-    //         {'key_name':'大油条','key_id':1,'key_num':0,'key_pic':'b.jpg','key_price':3.0,'key_cur':1},
-    //         {'key_name':'中油条','key_id':2,'key_num':0,'key_pic':'b.jpg','key_price':2.0,'key_cur':2},
-    //         {'key_name':'小油条','key_id':3,'key_num':0,'key_pic':'b.jpg','key_price':1.0,'key_cur':3}
-    // ];
+        }
+        var shopping_list = [];
+        var shopping_cart = [];
+        var data=<?php echo json_encode($data);?>;
+        for(var i=0;i<data.length();i++)
+            {
+                //var tr = document.createElement("tr");
+                shopping_list[i]=dish;
+                shopping_list[i].key_name=data[i].dishTitle;
+                shopping_list[i].key_id=data[i].id;
+                shopping_list[i].key_num=0;
+                shopping_list[i].key_pic=data.showPictureFileName;
+                shopping_list[i].key_price=data.price;
+                shopping_list[i].key_cur=i;
 
-        $(document).ready(function(){              
-                        console.log(shopping_list);   
 
-        })
+                
+                }
+                });
+        $(document).ready(function(){
+            console.log(data);
         $(".join-shopping-cart").click(function(){
             var item_cur=this.siblings("div").text();
             var len=shopping_cart.length();
@@ -120,13 +128,13 @@
         
         app.directive("menu",function(){
             return{
-                restrict: 'E', 
+                restrict:'E'
                 template :`
-            <div class = "cards" ng-repeat="i in list">
-                <img class="imgsize" src="./picture/b.webp" alt="network error!">
+            <div class = "cards" ng-repeat="i in shopping_list">
+                <img class="imgsize" src="{{'./picture/'+i.img}}" alt="network error!">
                 <div class="ri">
                     <h4>{{i.key_name}}</h4>
-                    <p>￥{{i.key_price}}</p>
+                    <p>{{i.key_price}}</p>
                     <button class="join-shopping-cart">加入购物车</button>
                     <div style="display:none;">{{i.key_cur}}</div>
                 </div>
@@ -136,10 +144,10 @@
         })
         app.directive("shopCartItem",function(){
             return{
-                restrict: 'E', 
+                restrict:'E'
                 template:`
                 <div id = "cart-item">
-                    <div class = "Item" ng-repeat="i in shopping_cart">
+                    <div class = "Item" ng-repeat="i in list">
                         <div class = "buy-name">
                             <p>{{i.name}}</p>
                         </div>
@@ -154,25 +162,17 @@
                 `
             }
         })
-        app.directive("tes",function(){
-            return{
-                restrict: 'E', 
-                template:`<h2>worddddd</h2>
-                <h2>wdfasdfa</h2>
-                `
-            };
-        });
 
     </script>
 </head>
 
 <body>
-        <div id="menu" ng-controller = "myctrl">
+        <div id="menu" ng-controller="myctrl">
             <!--加载餐馆菜单-->
             <menu></menu>
         </div>
         
-        <div id="shop-cart" >
+        <div id="shop-cart" ng-app="myapp">
             
             <div id="shop-carttitle">
                 <h3>购物车</h3>
@@ -181,10 +181,9 @@
 
             </div>
             
-            <div id = "shop-cartfooter" ng-controller = "myctrl1" >
+            <div id = "shop-cartfooter" ng-controller = "myctrl" >
                 <p>总计：￥{{sum}}</p>
                 <button id = "ordered" >订餐</button>
-                <!--
                 <script>
                     let b = document.getElementById("ordered");
                     b.click(function(){
@@ -192,7 +191,6 @@
                         $.post("")
                     })
                 </script>
-            -->
             </div>
         </div>
 </body>

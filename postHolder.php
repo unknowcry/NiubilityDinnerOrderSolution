@@ -4,7 +4,7 @@ require "./libs/debugManager.php";
 require "./libs/littleTools.php";
 $debugManager = new debugManager();
 $debugManager->debugOn();
-if($debugManager->isDebugOff()){
+if($debugManager->isDebugOn()){
     print("post: <br>");
     print_r($_POST);
     print("<br>");
@@ -24,8 +24,8 @@ if(isset($_POST["operate"])){
             $nextPage=null;
             switch($_POST["type"]){
                 case "0":{
-                    $table=$listOnTable->getListOnTable('customer');
-                    $nextPage='./order.html';
+                    $table='customer';
+                    $nextPage='./order.php';
                     //TODO 确定表是customer
                     //已知 username 先查找是否有username，没有则显示error界面，提示是否创建用户
                     //新用户必须完全填写账户信息，否则无法下单选择
@@ -36,8 +36,8 @@ if(isset($_POST["operate"])){
                 case "1":{
                     //TODO 确定表是restaurant
                     //流程类似顾客
-                    $table=$listOnTable->getListOnTable('restaurant');
-                    $nextPage='./restaurantBackGround.html';
+                    $table='restaurant';
+                    $nextPage='./dishList.html';
                     break;
                 }
             }
@@ -46,8 +46,8 @@ if(isset($_POST["operate"])){
             //     print_r($table);
             //     print("<br>");
             // }
-            $database=new operateDataOnTableFromDatabase($table);
-            $data=$database->selectDataByOtherSeries($array);
+            $database=newsqlinit();
+            $data=$database->select($table,["id","userName","passwd"]);
 
             // if($debugManager->isDebugOn()){
             //     print("data<br>");
