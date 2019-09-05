@@ -176,7 +176,7 @@ class operateDataOnTableFromDatabase{
         return $data;
     }
     function selectAllDataByID($id){
-        $data=$this->database->select("$this->tableName","*",["id"=>$id]);
+        $data=$this->database->select($this->tableName,"*",["id"=>$id]);
         return $data;
     }
     function selectLowRightAccessibleDataByID($id){
