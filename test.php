@@ -1,8 +1,7 @@
 <?php
 
-require "./sqlinit.php";
-
-print_r($listOnTable->getListOnTable('restaurant'));
-$database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable('restaurant'));
-//$data=$database->getAllData();
-print_r($data);
+$tableName='dish';
+require_once"./sqlinit.php";
+$database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
+$data=$database->selectAllDataByID(15);
+echo(json_encode($data));

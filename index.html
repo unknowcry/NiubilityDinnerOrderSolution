@@ -11,7 +11,7 @@
         <script>
             console.log($.cookie('islogedin'));
             if($.cookie('islogedin')==1){
-                window.location.href='./personal.php';
+                window.location.href='./order.php';
             }
         </script>
     </head>
@@ -32,7 +32,7 @@
                         </select>
                     </td>
                     <input type="hidden" name="operate" value="login">
-                    <input name="username" type="text" value="用户名" onfocus="this.value=''" onblur="if(this.value==''){this.value='用户名'}" autocomplete="off">
+                    <input name="userName" type="text" value="用户名" onfocus="this.value=''" onblur="if(this.value==''){this.value='用户名'}" autocomplete="off">
                     <span id="password_text" onclick="this.style.display='none';document.getElementById('password').style.display='block';document.getElementById('password').focus().select();">密码</span>
                     <input name="passwd" type="password" id="password" style="display:none;" onblur="if(this.value==''){document.getElementById('password_text').style.display='block';this.style.display='none'};" autocomplete="off">
                     <input value="登录" style="width:100%;" type="submit">

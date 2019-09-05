@@ -1,6 +1,7 @@
 <?php
-require_once "./libs/cookieManager.php";
-require"./libs/debugManager.php";
+//require_once "./libs/cookieManager.php";
+require "./libs/debugManager.php";
+require "./libs/littleTools.php";
 $debugManager = new debugManager();
 $debugManager->debugOn();
 if($debugManager->isDebugOn()){
@@ -40,49 +41,53 @@ if(isset($_POST["operate"])){
                     break;
                 }
             }
-            if($debugManager->isDebugOn()){
-                print("table<br>");
-                print_r($table);
-            }
+            // if($debugManager->isDebugOn()){
+            //     print("table<br>");
+            //     print_r($table);
+            //     print("<br>");
+            // }
             $database=new operateDataOnTableFromDatabase($table);
             $data=$database->selectDataByOtherSeries($array);
 
-            if($debugManager->isDebugOn()){
-                print("data<br>");
-                print_r($data);
-            }
+            // if($debugManager->isDebugOn()){
+            //     print("data<br>");
+            //     print_r($data);
+            //     print("<br>");
+            // }
 
 
             $userNameexists=false;
             $isPasswdCorrect=false;
+            $id=null;
             for($i=0;$i<count($data);$i++){
                 if($data[$i]['userName']==$_POST['userName']){
                     $userNameexists=true;
                     if($data[$i]['passwd']==$_POST['passwd']){
                         $isPasswdCorrect=true;
-                        print('用户名密码正确，正在为您重定向!<br>');
-                        $cookie=new cookieManager('userName',$_POST['userName']);
-                        $cookie=new cookieManager('id',$data[$i]['id']);
-                        $cookie=new cookieManager('islogedin','1');
-                        Header("Location: ./restaurant.html");
-                        exit();
+                        $id=$data[$i]['id'];
+                        //setcookie('userName',$_POST['userName'],time()+3600);
+                        //setcookie('id',1,time()+3600);
+                        //setcookie('islogedin',1,time()+3600);
+                        //header('Location: http://www.baidu.com/');
                         break;
                     }
                 }
             }
-            if($debugManager->isDebugOn()){
-                print("tag<br>");
-                print_r("aa");
-            }
             if(!$userNameexists){
                 //print('用户不存在，将为你创建新账户<br>');
                 //$database->insert(["id"=>])
-                print('密码错误，请重新登陆<br>');
+                print('用户名不存在，请重新登陆<br>');
                 print('<a href="./index.html">重新登陆</a>');
             }else{
                 if(!$isPasswdCorrect){
                     print('密码错误，请重新登陆<br>');
                     print('<a href="./index.html">重新登陆</a>');
+                }else{
+                    print('用户名密码正确，正在为您重定向!<br>');
+                    setcookie('id',$id,time()+3600);
+                    setcookie('islogedin',1,time()+3600);
+                    setcookie('userName',$_POST['userName'],time()+3600);
+                    header('Location: order.html');
                 }
             }
                     /*
@@ -110,7 +115,7 @@ if(isset($_POST["operate"])){
                     //tablename $_POST['tablename'];
                     $tableName=$_POST['tableName'];
                     require_once"./sqlinit.php";
-                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
                     $data=$database->getAllData();
                     echo(json_encode($data));
                     break;
@@ -119,7 +124,7 @@ if(isset($_POST["operate"])){
                     //tablename id
                     $tableName=$_POST['tableName'];
                     $id=$_POST['id'];
-                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
                     $data=$database->selectAllDataByID($id);
                     echo(json_encode($data));
                     break;
@@ -129,13 +134,13 @@ if(isset($_POST["operate"])){
                     $tableName=$_POST['tableName'];
                     $seriesName=$_POST['seriesName'];
                     $seriesVal=$_POST['seriesVal'];
-                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
                     $data=$database->selectDataByOtherSerie([$seriesName=>$seriesVal]);
                     echo(json_encode($data));
                     break;
                 }
                 case "getlowrightdata":{
-                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
                     $data=$database->getLowRightAccessibleData();
                     echo(json_encode($data));
                     break;
@@ -147,7 +152,7 @@ if(isset($_POST["operate"])){
             //删除记录 传入表名和id
             $tableName=$_POST['tableName'];
             $id=$_POST['id'];
-            $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+            $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
             $database->deleteByID($id);
             //print_r($_POST);
             break;
@@ -158,7 +163,7 @@ if(isset($_POST["operate"])){
             $id=$_POST['id'];
             $seriesName=$_POST['seriesName'];
             $seriesVal=$_POST['seriesVal'];
-            $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($this->tableName[$tableName]));
+            $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
             $database->updateByID([$seriesName=>$seriesVal],$id);
             break;
         }
@@ -166,8 +171,7 @@ if(isset($_POST["operate"])){
             //tablename [array];
             //TODO 将文件从上传的tmp目录保存到./pic
             require_once"./sqlinit.php";
-            $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($_POST['tableName']));
-            
+            //$database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($_POST['tableName']));
             break;
         }
     }

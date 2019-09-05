@@ -5,17 +5,11 @@ use Medoo\Medoo;
 class sqlinit{
     private $database_type='mysql';
     private $database_name='order_db';
-    private $server='39.106.222.231';
+    //private $server='39.106.222.231';
+    private $server='127.0.0.1';
     private $username='root';
-    private $passwd='123456789';
+    private $passwd='wolf';
     private $charset='utf8';
-    private $tablelist=array();
-    protected function setTableList(){
-        $this->tablelist["dish"]="dish";
-        $this->tablelist["customer"]="customer";
-        $this->tablelist["restaurant"]="restaurant";
-        $this->tablelist["indent"]="indent";
-    }
     public function getDatabase(){
         return $this->__construct();
     }

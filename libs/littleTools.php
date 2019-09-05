@@ -48,3 +48,12 @@ function getBigger($a,$b){
 function getSmaller($a,$b){
     return $a<$b?$a:$b;
 }
+
+function isInArray($array,$item){
+    for($i=0;$i<count($array);$i++){
+        if($array[$i]==$item){
+            return true;
+        }
+    }
+    return false;
+}
