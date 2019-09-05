@@ -105,18 +105,17 @@ if(isset($_POST["operate"])){
                             Header("Location: ./restaurant.php");
                         }
                     }*/
-                    
+
         }
         case "getdata":{
             switch($_POST["type"]){
                 case "alldata":{//从确定的表中获取全部列的数据
-                    //tablename $_POST['tablename'];
-                    //$tableName=$_POST['tableName'];
-                    //require_once"./sqlinit.php";
-                    //$database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
-                    //$data=$database->getAllData();
-                    //echo(json_encode($data));
-                    echo("hello");
+                    $tableName=$_POST['tableName'];
+                    require_once"./sqlinit.php";
+                    $database=newsqlinit();
+                    $data=$database->select($tableName,"*");
+                    echo(json_encode($data));
+                    //echo("hello");
                     break;
                 }
                 case "byid":{//从确定的表中获取某一确定的id对应的数据
@@ -128,7 +127,7 @@ if(isset($_POST["operate"])){
                     echo(json_encode($data));
                     break;
                 }
-                case "byotherserie":{//从确定的表中获取某一确定的某列值的对应数据
+                case "byotherseries":{//从确定的表中获取某一确定的某列值的对应数据
                     //tablename seriesname seriesval
                     $tableName=$_POST['tableName'];
                     $seriesName=$_POST['seriesName'];

@@ -2,6 +2,17 @@
 require_once"./libs/Medoo.php";
 require_once"./libs/littleTools.php";
 use Medoo\Medoo;
+
+function newsqlinit(){
+    return new Medoo([
+        'database_type' => 'mysql',
+        'database_name' => 'order_db',
+        'server' => '127.0.0.1',
+        'username' => 'root',
+        'password' => 'wolf',
+        'charset' => 'utf8'
+    ]);
+}
 class sqlinit{
     private $database_type='mysql';
     private $database_name='order_db';
