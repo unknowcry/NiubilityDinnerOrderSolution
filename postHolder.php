@@ -4,7 +4,7 @@ require "./libs/debugManager.php";
 require "./libs/littleTools.php";
 $debugManager = new debugManager();
 $debugManager->debugOn();
-if($debugManager->isDebugOn()){
+if($debugManager->isDebugOff()){
     print("post: <br>");
     print_r($_POST);
     print("<br>");
@@ -37,7 +37,7 @@ if(isset($_POST["operate"])){
                     //TODO 确定表是restaurant
                     //流程类似顾客
                     $table=$listOnTable->getListOnTable('restaurant');
-                    $nextPage='./restaurant.html';
+                    $nextPage='./restaurantBackGround.html';
                     break;
                 }
             }
@@ -76,8 +76,7 @@ if(isset($_POST["operate"])){
             if(!$userNameexists){
                 //print('用户不存在，将为你创建新账户<br>');
                 //$database->insert(["id"=>])
-                print('用户名不存在，请重新登陆<br>');
-                print('<a href="./index.html">重新登陆</a>');
+                print('用户名不存在,已为你创建新账户<br>');
             }else{
                 if(!$isPasswdCorrect){
                     print('密码错误，请重新登陆<br>');
@@ -87,7 +86,8 @@ if(isset($_POST["operate"])){
                     setcookie('id',$id,time()+3600);
                     setcookie('islogedin',1,time()+3600);
                     setcookie('userName',$_POST['userName'],time()+3600);
-                    header('Location: order.html');
+                    setcookie('logintype',$_POST['type'],time()+3600);
+                    header("Location: $nextPage");
                 }
             }
                     /*
@@ -105,19 +105,18 @@ if(isset($_POST["operate"])){
                             Header("Location: ./restaurant.php");
                         }
                     }*/
-
-
-
+                    
         }
         case "getdata":{
             switch($_POST["type"]){
                 case "alldata":{//从确定的表中获取全部列的数据
                     //tablename $_POST['tablename'];
-                    $tableName=$_POST['tableName'];
-                    require_once"./sqlinit.php";
-                    $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
-                    $data=$database->getAllData();
-                    echo(json_encode($data));
+                    //$tableName=$_POST['tableName'];
+                    //require_once"./sqlinit.php";
+                    //$database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
+                    //$data=$database->getAllData();
+                    //echo(json_encode($data));
+                    echo("hello");
                     break;
                 }
                 case "byid":{//从确定的表中获取某一确定的id对应的数据
@@ -173,6 +172,25 @@ if(isset($_POST["operate"])){
             require_once"./sqlinit.php";
             //$database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($_POST['tableName']));
             break;
+        }
+    }
+}else{
+    if(isset($_GET["operate"])){
+        switch($_GET["operate"]){
+            case "del":{
+                $tableName=$_GET['tableName'];
+                $id=$_GET['id'];
+                $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
+                $database->deleteByID($id);
+                break;
+            }
+            case "edit":{
+                $tableName=$_GET['tableName'];
+                $id=$_GET['id'];
+                $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($tableName));
+
+                break;
+            }
         }
     }
 }

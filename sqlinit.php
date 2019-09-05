@@ -211,7 +211,7 @@ class listOnTable{
         $this->tableName['customer']='customer';
         $this->tableName['indent']='indent';
         $this->Series['restaurant']=['id','userName','passwd','phoneNumber','address','restaurantName','introduction'];
-        $this->Series['dish']=['id','restaurantID','dishTitle','dishAmount','price','showPictureFileName'];
+        $this->Series['dish']=['id','restaurantID','dishTitle','dishAvailable','price','showPictureFileName'];
         $this->Series['customer']=['id','userName','passwd','phoneNumber','address'];
         $this->Series['indent']=['id','time','customerID','content','price','status','appraise'];
         $this->notAccessibleSeries['restaurant']=['passwd'];

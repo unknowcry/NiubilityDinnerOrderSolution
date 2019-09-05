@@ -10,8 +10,17 @@
         <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
         <script>
             console.log($.cookie('islogedin'));
-            if($.cookie('islogedin')==1){
-                window.location.href='./order.php';
+            if($.cookie('islogedin')){
+                switch($.cookie('logintype')){
+                    case 0:{
+                        window.location.href='./order.php';
+                        break;
+                    }
+                    case 1:{
+                        window.location.href='./restaurantBackGround.php';
+                        break;
+                    }
+                }
             }
         </script>
     </head>
