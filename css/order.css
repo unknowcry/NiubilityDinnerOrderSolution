@@ -1,0 +1,61 @@
+@charset "utf-8";
+.imgsize{
+    height: 100px;
+    width:  100px;
+    margin: 5px;
+    
+    float: left;
+}
+.cards{
+    border: 1px solid #a1a1a1;
+    border-radius: 5px;
+    width:300px;
+    height: 110px;
+    float: left;
+    margin: 10px;
+}
+.ri{
+    float: left;
+    margin-left: 20px;
+    
+}
+.menu{
+    width: 87%;
+    float: left;
+}
+#buy{
+    position:fixed;
+    
+    right: 0;
+    top:0;
+    bottom:0;
+    border:1px solid #a1a1a1;
+    border-radius: 0px;
+    
+    width: 180px;
+    float: right;
+    background: #1E90FF;
+    margin-right: 0px;
+}
+.bt{
+    background:#00FF7F;
+    border: 1px solid #00FF7F;
+    float: left;
+    width: 100%;
+}
+.Item{
+    border:5px #000000;
+    border-radius: 0px;
+}
+.buy-name{
+    float: left;
+}
+.add-botton{
+    float: right;
+}
+.add-botton button,.add-botton p{
+    float: left;
+}
+#ordered{
+    
+}

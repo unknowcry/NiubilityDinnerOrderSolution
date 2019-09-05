@@ -7,10 +7,10 @@ use Medoo\Medoo;
 
 class sqlinit{
     private $database_type='mysql';
-    private $database_name='order';
-    private $server='127.0.0.1';
+    private $database_name='order_db';
+    private $server='39.106.222.231';
     private $username='root';
-    private $passwd='wolf';
+    private $passwd='123456789';
     private $charset='utf8';
     public function getDatabase(){
         return $this->__construct();
@@ -147,6 +147,7 @@ class operateDataOnTableFromDatabase{
     private $lowRightAccessibleData;
 
     public function __construct($listOnTable){
+        $this->database=new sqlinit();
         $this->tableName=$listOnTable[0];
         $this->seriesOnTable=$listOnTable[1];
         $this->notAccessibleSeries=$listOnTable[2];
@@ -160,12 +161,16 @@ class operateDataOnTableFromDatabase{
         $this->lowRightAccessibleData=$this->database->select($this->tableName,$this->lowRightSeries);
         return $this->lowRightAccessibleData;
     }
+    function selectDataByIdUserNamePasswd(){
+        $data=$this->database->select("$this->database",['id','userName','passwd']);
+        return $data;
+    }
     function selectAllDataByID($id){
         $data=$this->database->select("$this->tableName","*",["id"=>$id]);
         return $data;
     }
     function selectLowRightAccessibleDataByID($id){
-        $data=$this->database->select($this->tableName,$this->lowRightSeries,["id"=>$id]);
+        $data=$this->database->select("$this->tableName",$this->lowRightSeries,["id"=>$id]);
         return $data;
     }
     function selectAlldataByUserName($userName){

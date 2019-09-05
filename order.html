@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>点单</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/order.css">
+    <script>
+        var shopping_list ={
+            key_name:Array(),
+            key_num:Array(),
+            key_id:Array(),
+            key_price:Array()
+        };
+
+        $("#join-shopping-cart").click(function(){
+            var item_name=this.siblings("h4").text();
+            var item_price=this.siblings("p").text();
+            var item_num=1;
+            var bol = true;
+            for(i in shopping_list)
+            {
+                if(shopping_list.key_name[i]==item_name)
+                {
+                    bol=false;
+                    break;
+                }
+            }
+            if(bol)
+            {
+                shopping_list.key_name=shopping_list.key_name.concat(item_name);
+                shopping_list.key_price=shopping_list.key_price.concat(item_price);
+                shopping_list.key_num=shopping_list.key_num.concat(item_num);
+                createCart();
+            }
+        });
+
+        function createCart(){
+            var sumprice=0;
+            for(i in shopping_list.key_name)
+            {
+                if(shopping_list.key_num[i]==0)continue;
+
+                var div = document.createElement("div");
+                var div_1 = document.createElement("div");
+                var div_2 = document.createElement("div");
+                var textp1 = "<p>"+shopping_list.key_name[i]+"</p>";
+                var textp2 = "<p>"+shopping_list.key_num[i]+"</p>";
+                var button_up = document.createElement("button");
+                var button_down = document.createElement("button");
+
+                sumprice+=shopping_list.key_num[i]*shopping_list.key_price[i];
+
+                div.setAttribute("class","Item");
+                div_1.setAttribute("class","buy-name");
+                div_2.setAttribute("class","add-button");
+                button_up.setAttribute("class","incrs");
+                button_down.setAttribute("class","rdc");
+                button_up.text="+";
+                button_down.text="-";
+
+                document.getElementsByClassName("bt").appendChild(div);
+                document.getElementsByClassName("Item").appendChild(div_1);
+                document.getElementsByClassName("buy-name").innerHTML(textp1);
+                document.getElementsByClassName("Item").appendChild(div_2);
+                document.getElementsByClassName("add-button").appendChild(button_down);
+                document.getElementsByClassName("add-button").innerHTML(textp2);
+                document.getElementsByClassName("add-button").appendChild(button_up);
+                
+                var p = "<p>总计"+sumprice+"</p>";
+            }
+        };
+
+        $(".incrs").click(function(){
+            var Itemname=this.parent().siblings("div").children("p").text();
+
+            for(i in shopping_list.key_name)
+            {
+                if(shopping_list.key_name[i]==Itemname)
+                {
+                    shopping_list.key_num[i]++;
+                    if(shopping_list.key_num[i]>99)
+                    {
+                        shopping_list.key_num[i]=99;
+                        alert("nmsl");
+                    }
+                }
+            }
+            createCart();
+        })
+
+        $(".rdc").click(function(){
+            var Itemname=this.parent().siblings("div").children("p").text();
+
+            for(i in shopping_list.key_name)
+            {
+                if(shopping_list.key_name[i]==Itemname)
+                {
+                    shopping_list.key_num[i]--;
+                    if(shopping_list.key_num[i]<0)
+                    {
+                        shopping_list.key_num[i]=0;
+                        alert("awsl");
+                    }
+                }
+            }
+            createCart();
+        })
+
+    </script>
+</head>
+<body>
+        <div id="menu">
+            <script>
+                $(document).ready(function(){
+                    var rid = $.cookie("restaurant");
+                    $.post("postHolder.php",{operate:"getdata",type:"byortherseries",tablename:"dish",seriesname:"restaurantId",id:rid},function(data,status){
+                        var i = 1;
+                        for(i in data){
+                        var div1 = document.createElement("div");
+                        div1.setAttribute("class","cards");
+                        div1.id="div"+i;
+        
+                        var img = document.createElement("img");
+                        img.setAttribute("class","imgsize");
+                        img.scr = "./picture/b.webp";
+                        img.alt = "network error!";
+                        img.id="img"+i;
+        
+                        var div2 = document.createElement("div");
+                        div2.setAttribute("class","ri");
+                        div2.id="divv"+i;
+                        
+                        var texth4 = "<h4>"+data[i].name + "</h4>";
+                        var textp = "<p>"+data[i].price + "</p>";
+                        var textbutton = "<button id=\"join-shopping-cart\">加入购物车</button>";
+        
+                        document.getElementById("menu").appendChild(div1);
+                        document.getElementById("div"+i).appendChild(img);
+                        document.getElementById("div"+i).appendChild(div2);
+                        document.getElementById("divv"+i).innerHTML(texth4);
+                        document.getElementById("divv"+i).innerHTML(textp);
+                        document.getElementById("divv"+i).innerHTML(textbutton);
+                      }
+                    })
+                })
+            </script>
+        </div>
+        
+        <div id="buy">
+            <div class="buy-title">
+                <h3>购物车</h3>
+            </div>
+            <div class="bt">
+             
+            </div>
+            <div>
+                <button id = "ordered" >订餐</button>
+                <script>
+                    let b = document.getElementById("ordered");
+                    b.click(function(){
+                        $.post("")
+                    })
+                </script>
+            </div>
+        </div>
+        <!--
+        <script>
+                let box = document.getElementById('buy');
+                
+                let speedX = 10,speedY = 8;
+         
+                //水平方向运动最大值
+                let 
+                    maxL = document.documentElement.clientWidth - box.offsetWidth;
+                    maxT = document.documentElement.clientHeight - box.offsetHeight;
+                
+                let timer = null;
+         
+                box.onmouseenter = function () {
+                    clearInterval(timer);
+                };
+                box.onmouseleave = function () {
+                    autoMove();
+                };
+                autoMove();    
+                function autoMove(){
+                    timer = setInterval(() => {
+                        let nextX = box.offsetLeft + speedX;
+                        let nextY = box.offsetTop + speedY;
+                        alert(box.offsetTop);
+                         //左侧边界
+                         if(nextX <= 0) {
+                            nextX = 0;
+                            speedX *= -1;
+                        }
+         
+                         //上侧边界
+                         if(nextY <= 0) {
+                            nextY = 0;
+                            speedY *= -1;
+                        }
+         
+                        //右侧边界
+                        if(nextX >= maxL) {
+                            nextX = maxL;
+                            speedX *= -1;
+                        }
+         
+                         //底侧边界
+                         if(nextY >= maxT) {
+                            nextY = maxT;
+                            speedY *= -1;
+                        }
+                        box.style.left = nextX + 'px';
+                        box.style.top =  nextY + 'px';
+                        
+                    },50);
+                }
+                
+            </script>
+        -->
+</body>
+</html>
