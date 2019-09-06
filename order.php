@@ -51,7 +51,7 @@
             //dataitem=dish;
             dataitem["key_cur"]=i;
             dataitem["key_name"]=data[i].dishTitle;
-            dataitem["key_pic"]="http://127.0.0.1/dishPictures/"+data[i].showPictureFileName;
+            dataitem["key_pic"]="http://127.0.0.1/NiubilityDinnerOrderSolution/dishPictures/"+data[i].showPictureFileName;
             dataitem["key_price"]=data[i].price;
             dataitem["key_id"]=data[i].id;
             dataitem.key_num=0;
@@ -184,7 +184,7 @@
                 restrict: 'E', 
                 template :`
             <div class = "cards" ng-repeat="i in list">
-                <img class="imgsize" src="{{key_pic}}" alt="network error!">
+                <img class="imgsize" src="{{i.key_pic}}" alt="network error!">
                 <div class="ri">
                     <h4>{{i.key_name}}</h4>
                     <p>￥{{i.key_price}}</p>
@@ -246,7 +246,11 @@
             
             <div id = "shop-cartfooter" ng-controller = "myctrl2" >
                 <p>总计：￥{{sum}}</p>
-                <button id = "ordered" >订餐</button>
+                <?php
+                setcookie("id",9,time()+3600);
+                ?>
+                <a href="./customerIndent.html"><button id = "ordered" >订餐</button></a>
+
                 <!--
                 <script>
                     let b = document.getElementById("ordered");

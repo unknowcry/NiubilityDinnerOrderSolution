@@ -1,8 +1,8 @@
 @charset "utf-8";
 .imgsize{
-    height: 100px;
-    width:  100px;
-    margin: 5px;
+    height: 70px;
+    width:  70px;
+    margin: 1px;
     
     float: left;
 }
@@ -70,7 +70,7 @@
     float: left;
     text-align: center;
     background-color:white;
-    font-size: 20px;
+    font-size: 10px;
     margin-left: 20px;
     height:100%;
     
