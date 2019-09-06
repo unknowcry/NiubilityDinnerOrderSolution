@@ -76,7 +76,8 @@ if(isset($_POST["operate"])){
             if(!$userNameexists){
                 //print('用户不存在，将为你创建新账户<br>');
                 //$database->insert(["id"=>])
-                print('用户名不存在,已为你创建新账户<br>');
+                print('用户名错误，请重新登陆<br>');
+                print('<a href="./index.html">重新登陆</a>');
             }else{
                 if(!$isPasswdCorrect){
                     print('密码错误，请重新登陆<br>');
@@ -166,10 +167,10 @@ if(isset($_POST["operate"])){
             break;
         }
         case "adddata":{//从确定的表中添加对应的数据
-            //tablename [array];
+            $tablename ['dish'];
             //TODO 将文件从上传的tmp目录保存到./pic
             require_once"./sqlinit.php";
-            //$database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($_POST['tableName']));
+            $database=new operateDataOnTableFromDatabase($listOnTable->getListOnTable($_POST['tableName']));
             break;
         }
     }
