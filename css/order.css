@@ -34,7 +34,7 @@
     
     width: 180px;
     float: right;
-    
+    background-color: white;
     margin-right: 0px;
     box-shadow: 0 1px 3px #2c2c2c;
 }
@@ -63,26 +63,28 @@
     line-height: 46px;
     width: 100%;
     border-radius: 0px;
-    border:1px solid #a1a1a1;
+    border:1px solid #9a9a9a;
 }
 
 .buy-name{
     float: left;
     text-align: center;
+    background-color:white;
     font-size: 20px;
     margin-left: 20px;
+    height:100%;
     
 }
 .add-button{
-    position: absolute;
-    top:10px;
     float:right;
-    left: 110px;
+    margin-top: 10px;
+    margin-right: 20px;
     height: 20px;
     width: 60px;
+    
 }
 .add-button p{
-    position: absolute;
+    float:left;
     left:20px;
     height: 20px;
     width:20px;
@@ -91,13 +93,13 @@
     text-align: center;
 }
 .rdc{
-    position: absolute;
+    float:left;
     width:20px;
     height: 20px;
     line-height: 15px;
 }
 .incrs{
-    position: absolute;
+    float:right;
     left:40px;
     width:20px;
     height: 20px;

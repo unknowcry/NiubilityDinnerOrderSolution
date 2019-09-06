@@ -1,6 +1,6 @@
-<!-- <?php
-setcookie("id",1,time()+3600);
-?> -->
+<?php
+setcookie("id",9,time()+3600);
+?>
 
 <?php
 
@@ -11,15 +11,15 @@ use Medoo\Medoo;
 
 
 
-$status_str=array();
-$status_str[0]="商家已接单";
-$status_str[1]="订单配送中";
-$status_str[2]="订单已送达";
-$status_str[3]="订单已取消";
-$status_str[4]="订单未完成";
-$status_str[5]="订单未评价";
-$status_str[6]="订单已评价";
-$status_str[7]="订单信息丢失";
+$status=array();
+$status[0]="商家已接单";
+$status[1]="订单配送中";
+$status[2]="订单已送达";
+$status[3]="订单已取消";
+$status[4]="订单未完成";
+$status[5]="订单未评价";
+$status[6]="订单已评价";
+$status[7]="订单信息丢失";
 
 
 $id=$_COOKIE["id"];
@@ -53,7 +53,10 @@ for($i=0;$i<$length;$i++){// to alter $i
     // echo "--------$con_len";
     // echo "<br/>";
     for($j=0;$j<$con_len;$j++){
-        $tmp=$sql_dish->select_DishByRestaurantID($cont[$j][0]);
+        // print_r($cont[$j][0]);
+        // echo "<br/>";
+        
+        $tmp=$sql_dish->selectAllDataByID($cont[$j][0]);
         // print_r($tmp);
         // echo "<br/>";
         
@@ -79,7 +82,7 @@ for($i=0;$i<$length;$i++){// to alter $i
     if($data[$i]["status"]=="" || $data[$i]["status"]==null){
         $data[$i]["status"]=7;
     }
-    $data[$i]["status"]=$status_str[$data[$i]["status"]];
+    $data[$i]["status"]=$status[$data[$i]["status"]];
     
     if($data[$i]["appraise"]=="" || $data[$i]["appraise"]==null){
         $data[$i]["appraise"]="用户未评价";
