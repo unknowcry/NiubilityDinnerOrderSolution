@@ -1,5 +1,5 @@
 <?php
-setcookie("id",13,time()+3600);
+setcookie("id",2,time()+3600);
 ?>
 
 <?php
@@ -71,6 +71,8 @@ for($i=0;$i<$length;$i++){// to alter $i
         $dish_amount_con[]=$restaurantName;
         $dish_amount_con[]=$tmp[0]["dishTitle"];
         $dish_amount_con[]=$cont[$j][1];
+        $dish_amount_con[]=$tmp[0]["showPictureFileName"];
+        $dish_amount_con[]=$tmp[0]["price"];
         $dish_amount[]=$dish_amount_con;
         // echo "<br/>";
     }
