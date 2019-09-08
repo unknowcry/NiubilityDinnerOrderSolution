@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
+        <title>菜品列表</title>
+        <!-- <style>
+            table,th,td
+            {
+                text-align: center;
+            }
+            </style> -->
+        <script>
+            // var data=null;
+            $(document).ready(function(){
+                $.getJSON("dishList.php",function(data){
+                // $.post("postHolder.php",{operate:"getdata",type:"alldata",tableName:"dish"},function(data,status){
+                    // console.log(data);
+
+                    var dishPic_src="http://127.0.0.1/NiubilityDinnerOrderSolution/dishPictures/";
+                    var alt = "图片出错";
+
+
+                    var i=0;
+                    var body=document.getElementsByTagName("body")[0];
+                    var table = document.createElement("table");
+                    table.setAttribute("border",1);
+                    table.setAttribute("style","text-align: center")
+                    var tr = document.createElement("tr");
+                    var td =document.createElement("td");
+                    var td2 =document.createElement("td");
+                    var td3 = document.createElement("td");
+                    var td4 = document.createElement("td");
+                    td.appendChild(document.createTextNode("菜品名称"));
+                    td2.appendChild(document.createTextNode("价格"));
+                    td3.appendChild(document.createTextNode("操作"));
+                    tr.appendChild(td4);
+                    tr.appendChild(td);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    table.appendChild(tr);
+                    for(i;i<data.length;i++)
+                    {
+                        var tr11 = document.createElement("tr");
+                    var td11 =document.createElement("td");
+                    var td12 =document.createElement("td");
+                    var td13 = document.createElement("td");
+
+                    var td14 = document.createElement("td");
+                    var pic =  document.createElement("img");
+                    pic.setAttribute("src",dishPic_src+data[i].showPictureFileName);
+                    pic.setAttribute("alt",alt);
+                    td14.appendChild(pic);
+
+                    td11.appendChild(document.createTextNode(data[i].dishTitle));
+                    td12.appendChild(document.createTextNode(data[i].price));
+                    var a=document.createElement("a");
+                    a.appendChild(document.createTextNode("删除"));
+                    a.setAttribute('href',"deleteEditDish.php?operate=del&id="+data[i].id);
+                    td13.appendChild(a);
+                    var a2=document.createElement("a");
+                    a2.appendChild(document.createTextNode("修改"));
+                    a2.setAttribute('href',"deleteEditDish.php?operate=edit&id="+data[i].id);
+                    td13.appendChild(a2);
+                    tr11.appendChild(td14);
+                    tr11.appendChild(td11);
+                    tr11.appendChild(td12);
+                    tr11.appendChild(td13);
+                    table.appendChild(tr11);
+                    }
+                    body.appendChild(table);
+                })
+            })
+
+
+
+        </script>
+    </head>
+
+    <body>
+        <a href="submitDish.html">添加菜品</a>
+    </body>
+    
+</html>

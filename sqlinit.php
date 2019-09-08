@@ -2,20 +2,25 @@
 require_once"./libs/Medoo.php";
 require_once"./libs/littleTools.php";
 use Medoo\Medoo;
+
+function newsqlinit(){
+    return new Medoo([
+        'database_type' => 'mysql',
+        'database_name' => 'order_db',
+        'server' => '127.0.0.1',
+        'username' => 'root',
+        'password' => 'wolf',
+        'charset' => 'utf8'
+    ]);
+}
 class sqlinit{
     private $database_type='mysql';
     private $database_name='order_db';
+    //private $server='39.106.222.231';
     private $server='127.0.0.1';
     private $username='root';
-    private $passwd='root';
+    private $passwd='wolf';
     private $charset='utf8';
-    private $tablelist=array();
-    protected function setTableList(){
-        $this->tablelist["dish"]="dish";
-        $this->tablelist["customer"]="customer";
-        $this->tablelist["restaurant"]="restaurant";
-        $this->tablelist["indent"]="indent";
-    }
     public function getDatabase(){
         return $this->__construct();
     }
@@ -31,6 +36,7 @@ class sqlinit{
     }
 }
 //顾客 菜品 餐馆 订单
+
 class userSeedClass{//cant use directly
     private $id;
     private $userName;
@@ -120,7 +126,6 @@ class indent_item{
     private $content = array();
     private $price;
     private $status;
-    private $appraise;
     public function __construct($data){
         $this->id=$data["id"];
         $this->time=$data["time"];
@@ -160,15 +165,8 @@ class operateDataOnTableFromDatabase{
         $this->seriesOnTable=$listOnTable[1];
         $this->notAccessibleSeries=$listOnTable[2];
         $this->lowRightSeries=$listOnTable[3];
-        
-        //$this->tableName=$tableName;
-        //$this->seriesOnTable=$seriesOnTable;
-        //$this->notAccessibleSeries=$notAccessibleSeries;
-        //$this->lowRightSeries=$lowRightSeries;
         $database = new sqlinit();
         $this->database=$database->getDatabase();
-        // $littleTools=new littleTools();
-        // $this->lowRightSeries=$littleTools->delItemsFromArrayWithoutKey($this->seriesOnTable,$this->notAccessibleSeries);
     }
     public function getAllData(){
         $this->allData=$this->database->select($this->tableName,"*");
@@ -178,12 +176,16 @@ class operateDataOnTableFromDatabase{
         $this->lowRightAccessibleData=$this->database->select($this->tableName,$this->lowRightSeries);
         return $this->lowRightAccessibleData;
     }
+    function selectDataByOtherSeries($series){
+        $data=$this->database->select($this->tableName,$series);
+        return $data;
+    }
     function selectAllDataByID($id){
-        $data=$this->database->select("$this->tableName","*",["id"=>$id]);
+        $data=$this->database->select($this->tableName,"*",["id"=>$id]);
         return $data;
     }
     function selectLowRightAccessibleDataByID($id){
-        $data=$this->database->select($this->tableName,$this->lowRightSeries,["id"=>$id]);
+        $data=$this->database->select("$this->tableName",$this->lowRightSeries,["id"=>$id]);
         return $data;
     }
     function selectAlldataByUserName($userName){
@@ -192,14 +194,6 @@ class operateDataOnTableFromDatabase{
     }
     function selectLowRightAccessibleDataByUserName($userName){
         $data=$this->database->select($this->tableName,$this->lowRightSeries,["userName"=>$userName]);
-        return $data;
-    }
-    function select_IndentByCustomerID($customerID){
-        $data=$this->database->select($this->tableName,"*",["customerID"=>$customerID]);
-        return $data;
-    }
-    function select_DishByRestaurantID($restaurantID){
-        $data=$this->database->select($this->tableName,"*",["restaurantID"=>$restaurantID]);
         return $data;
     }
     function deleteByID($id){
@@ -214,8 +208,16 @@ class operateDataOnTableFromDatabase{
     function updateByID($data,$id){
         return $this->database->update($this->tableName,$data,["id"=>$id]);
     }
-    
+    function select_IndentByCustomerID($customerID){
+        $data=$this->database->select($this->tableName,"*",["customerID"=>$customerID]);
+        return $data;
+    }
+    function select_DishByRestaurantID($restaurantID){
+        $data=$this->database->select($this->tableName,"*",["restaurantID"=>$restaurantID]);
+        return $data;
+    }
 }
+
 class listOnTable{
     public $tableName=array();
     public $Series=array();
@@ -228,7 +230,7 @@ class listOnTable{
         $this->tableName['customer']='customer';
         $this->tableName['indent']='indent';
         $this->Series['restaurant']=['id','userName','passwd','phoneNumber','address','restaurantName','introduction'];
-        $this->Series['dish']=['id','restaurantID','dishTitle','dishAmount','price','showPictureFileName'];
+        $this->Series['dish']=['id','restaurantID','dishTitle','dishAvailable','price','showPictureFileName'];
         $this->Series['customer']=['id','userName','passwd','phoneNumber','address'];
         $this->Series['indent']=['id','time','customerID','content','price','status','appraise'];
         $this->notAccessibleSeries['restaurant']=['passwd'];
@@ -240,12 +242,14 @@ class listOnTable{
         $this->lowRightSeries['customer']=['id','userName','phoneNumber','address'];
         $this->lowRightSeries['indent']=$this->Series;
     }
-    function getListOnTable($tableName){
+    public function getListOnTable($tableName){
         $data=array();
         $data[]=$this->tableName[$tableName];
         $data[]=$this->Series[$tableName];
         $data[]=$this->notAccessibleSeries[$tableName];
-        $data[]=$this->lowRightSeries{$tableName};
+        $data[]=$this->lowRightSeries[$tableName];
         return $data;
     }
 }
+$listOnTable=new listOnTable();
+

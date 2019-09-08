@@ -2,87 +2,77 @@
     <head>
         <meta charset="UTF-8">
         <script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
-        <title>顾客订单列表</title>
+        <title>订单列表</title>
         <style>
             table,th,td
             {
                 text-align: center;
             }
-            </style>
+        </style>
         <script>
-            $.getJSON("customerIndent.php",function(data){
-                // var html = '<ul>';
-                // html+='<li>'+"hello world"+'</li>';
-                // html+='<li>'+data["id"]+'<li>';
-                // html += '</ul>';
-    
-                var html = '<table border="1" width="100%">';
-                // html += '<tr>';
-                // html += '<th>' + ""+'</th>';
-                // html += '<th>' + "时间"+'</th>';
-                // html += '<td>' + "内容"+'</td>';
-                // html += '<th>' + "总价"+'</th>';
-                // html += '<th>' + "状态"+'</th>';
-                // html += '<td>' + "评价"+'</td>';
-                // html += '</tr>';
-                for(var i = 0 ; i < data.length; i++)
-                {
-                    var no=i+1;
-                    html += '<tr>';
-                    html += '<td>' + no + '</td>';
-                    html += '<td>' + data[i]["time"] + '</td>';
-                    html += '<td>' + data[i]["price"] + "元" + '</td>';
-                    html += '<td>' + data[i]["status"] + '</td>';
-                    html += '</tr>';
-
-                    
-                    // for(var tmp in  data[i]["content"]){
-                    //     html += '<tr>';
-                    //     html += '<td>' + "" + '</td>';
-                    //     html += '<td>' + tmp[0] + '</td>';
-                    //     html += '<td>' + tmp[1] + '</td>';
-                    //     html += '<td>' + tmp[2] + '</td>';
-                    //     html += '</tr>';
-                    // }
-                    
-
-                    for(var j = 0 ; j < data[i]["content"].length; j++)
+            var rowspan=4;
+            var dishPic_src="http://127.0.0.1/NiubilityDinnerOrderSolution/dishPictures/";
+            $(document).ready(function(){
+                $.getJSON("customerIndent.php",function(data){
+                    var body=document.getElementsByTagName("body")[0];
+                    for(var i=0;i<data.length;i++)
                     {
-                        html += '<tr>';
-                        html += '<td>' + "" + '</td>';
-                        html += '<td>' + data[i]["content"][j][0] + '</td>';
-                        html += '<td>' + data[i]["content"][j][1] + '</td>';
-                        html += '<td align="center">' + data[i]["content"][j][2] + "份" + '</td>';
-                        html += '</tr>';
+                        var table1 = document.createElement("table");
+                        table1.setAttribute("border",1);
+                        for(var j=0;j<data[i].content.length;j++)
+                        {
+                            var table2 = document.createElement("table");
+                            table2.setAttribute("border",1);
+                            // table2.setAttribute("width","100%");
+                            var tr11 = document.createElement("tr");
+                            var td11 = document.createElement("td");
+                            var td12 = document.createElement("td");
+                            td11.setAttribute("rowspan",rowspan);
+                            var pic = document.createElement("img");
+                            pic.setAttribute("src",dishPic_src+data[i].content[j][3]);
+                            td11.appendChild(pic);
+                            td12.appendChild(document.createTextNode(data[i].content[j][1]));
+                            tr11.appendChild(td11);
+                            tr11.appendChild(td12);
+                            var tr21 = document.createElement("tr");
+                            var td21 = document.createElement("td");
+                            td21.appendChild(document.createTextNode(data[i].content[j][2]+"份"));
+                            tr21.appendChild(td21);
+                            var tr31 = document.createElement("tr");
+                            var td31 = document.createElement("td");
+                            td31.appendChild(document.createTextNode(data[i].content[j][4]+"元"));
+                            tr31.appendChild(td31);
+                            var tr41 = document.createElement("tr");
+                            var td41 = document.createElement("td");
+                            td41.appendChild(document.createTextNode(data[i].content[j][0]));
+                            tr41.appendChild(td41);
+                            table2.appendChild(tr11);
+                            table2.appendChild(tr21);
+                            table2.appendChild(tr31);
+                            table2.appendChild(tr41);
+                            var ta1_td1 = document.createElement("td");
+                            var ta1_tr1 = document.createElement("tr");
+                            ta1_td1.appendChild(table2);
+                            ta1_tr1.appendChild(ta1_td1);
+                            table1.appendChild(ta1_tr1);
+                            // body.appendChild(table2);
+                        }
+                        var ta1_td2 = document.createElement("td");
+                        var ta1_tr2 = document.createElement("tr");
+                        ta1_td2.appendChild(document.createTextNode(data[i].appraise));
+                        ta1_tr2.appendChild(ta1_td2);
+                        table1.appendChild(ta1_tr2);
+                        body.appendChild(table1);
+                        var br = document.createElement("br");
+                        body.appendChild(br);
                     }
-
-
-                    // html += '<tr>';
-                    // html += '<td>' + "内容" + '</td>';
-                    // html += '<td colspan=2>' + data[i]["content"] + '</td>';
-                    // html += '</tr>';
-                    html += '<tr>';
-                    html += '<td>' + "评价" + '</td>';
-                    html += '<td colspan=3>' + data[i]["appraise"] + '</td>';
-                    html += '</tr>';
-                }
-                html += '</table>';
-
-                // html += '<ul>';
-                // html+='<li>'+"hello world"+'</li>';
-                // html+='<li>'+data[0]["content"].length+'</li>';
-                // html+='<li>'+data.length+'</li>';
-                // html += '</ul>';
-
-
-                $('#indent_list').html(html); 
-                
+                })
             })
         </script>
     </head>
 
     <body>
-        <div id="indent_list"></div>
+        
     </body>
     
 </html>
